@@ -1,0 +1,1002 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>منصة الخدمات والهوية الرقمية</title>
+    
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="أبشر">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#161817">
+
+    <link rel="manifest" id="dynamic-manifest" href="data:application/manifest+json;charset=utf-8,%7B%22name%22%3A%22%D8%A3%D8%A8%D8%B4%D8%B1%22%2C%22short_name%22%3A%22%D8%A3%D8%A8%D8%B4%D8%B1%22%2C%22start_url%22%3A%22%2F%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23161817%22%2C%22theme_color%22%3A%22%23161817%22%7D">
+
+    <link rel="apple-touch-icon" id="dynamic-apple-icon" href="https://placehold.co/192x192/0B6E3B/ffffff?text=APP">
+    <link rel="icon" type="image/png" id="dynamic-favicon" href="https://placehold.co/192x192/0B6E3B/ffffff?text=APP">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+    
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        :root {
+            --primary-green: #0B6E3B;
+            --accent-mint: #8ED1AF;
+            --card-bg: #2B2E2D;
+            --dark-base: #161817;
+        }
+
+        html, body {
+            background-color: #0b0d0c;
+            font-family: 'Tajawal', 'Cairo', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+            -webkit-user-select: none;
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow-x: hidden;
+            overflow-y: auto;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+
+        ::-webkit-scrollbar {
+            display: none !important;
+            width: 0 !important;
+            height: 0 !important;
+        }
+
+        * {
+            -webkit-touch-callout: none;
+            outline: none;
+            scrollbar-width: none !important;
+        }
+
+        #app-shell {
+            position: relative;
+            background-color: var(--dark-base);
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            transition: background 0.3s ease;
+            min-height: 100vh;
+            min-height: -webkit-fill-available;
+            overflow-x: hidden;
+        }
+
+        #top-fixed-header {
+            position: sticky;
+            top: 0;
+            z-index: 40;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            padding-top: env(safe-area-inset-top, 12px);
+            transition: background 0.3s ease;
+        }
+
+        #top-section-wrapper {
+            position: relative;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            transition: background 0.3s ease;
+        }
+
+        #quick-access-wrapper {
+            position: relative;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            transition: background 0.3s ease;
+        }
+
+        .section-overlay {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            border-radius: inherit;
+        }
+
+        .section-inner {
+            position: relative;
+            z-index: 1;
+        }
+
+        .profile-avatar-frame {
+            width: 64px;
+            height: 64px;
+            min-width: 64px;
+            min-height: 64px;
+            border-radius: 14px;
+            overflow: hidden;
+            background-color: #3a3e3c;
+            border: 1.5px solid rgba(255, 255, 255, 0.14);
+        }
+        .profile-avatar-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center top;
+        }
+
+        .banner-card-frame {
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+            height: 118px;
+            min-height: 118px;
+            max-height: 118px;
+            width: 100%;
+            background-size: cover;
+            background-position: center;
+            transition: all 0.2s ease;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+        }
+
+        .digital-doc-card-mini {
+            width: 100%;
+            aspect-ratio: 1.58 / 1;
+            border-radius: 14px;
+            overflow: hidden;
+            position: relative;
+            background-color: #2B2E2D;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            transition: transform 0.2s ease;
+            cursor: pointer;
+        }
+        .digital-doc-card-mini:active { transform: scale(0.97); }
+
+        .service-wide-card {
+            height: 88px;
+            min-height: 88px;
+            max-height: 88px;
+            border-radius: 18px;
+            overflow: hidden;
+            position: relative;
+            display: block;
+        }
+        .service-grid-card {
+            height: 128px;
+            min-height: 128px;
+            max-height: 128px;
+            border-radius: 18px;
+            overflow: hidden;
+            position: relative;
+            display: block;
+        }
+
+        .floating-nav {
+            background: rgba(11, 94, 51, 0.90);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(142, 209, 175, 0.25);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+        }
+
+        .real-id-stage {
+            width: 82vw;
+            max-width: 320px;
+            height: 78vh;
+            max-height: 540px;
+            border-radius: 20px;
+            overflow: hidden;
+            background: transparent;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.85);
+            position: relative;
+        }
+
+        .real-id-track {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            height: 200%;
+            transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .real-id-slide {
+            width: 100%;
+            height: 50%;
+            flex-shrink: 0;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .real-id-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 20px;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        .animate-slide-up {
+            animation: slideUp 0.26s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+    </style>
+</head>
+<body class="flex justify-center min-h-screen text-white">
+
+    <div id="app-shell" class="w-full max-w-[430px] min-h-screen relative flex flex-col shadow-2xl overflow-x-hidden">
+
+        <div id="top-fixed-header">
+            <div id="top-fixed-overlay" class="section-overlay"></div>
+            <div class="section-inner px-4 pt-2 pb-1">
+                <div class="flex items-center justify-between">
+                    <div class="w-10"></div>
+                    <div id="top-capsule" class="mr-auto flex items-center gap-1 bg-white/10 backdrop-blur-md border border-white/15 rounded-full px-2.5 py-1.5 shadow-sm">
+                        <button onclick="openSearchModal()" aria-label="بحث" class="p-1.5 rounded-full hover:bg-white/15 active:scale-90 transition text-white">
+                            <i data-lucide="search" class="w-5 h-5 stroke-[2.2]"></i>
+                        </button>
+                        <button onclick="openSettingsModal()" aria-label="الإعدادات والتعديل" class="p-1.5 rounded-full hover:bg-white/15 active:scale-90 transition text-white relative">
+                            <i data-lucide="settings" class="w-5 h-5 stroke-[2.2]"></i>
+                        </button>
+                        <button onclick="showToast('لا توجد إشعارات جديدة حالياً')" aria-label="الإشعارات" class="p-1.5 rounded-full hover:bg-white/15 active:scale-90 transition text-white">
+                            <i data-lucide="bell" class="w-5 h-5 stroke-[2.2]"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="top-section-wrapper" class="px-4 pb-5">
+            <div id="top-bg-overlay" class="section-overlay"></div>
+            
+            <div class="section-inner">
+                <div id="profile-card" onclick="openProfileDetails()" class="bg-[#2B2E2D]/90 backdrop-blur-md active:scale-[0.99] transition cursor-pointer rounded-[20px] p-3.5 shadow-lg border border-white/10 flex items-center justify-between gap-3 mb-4 mt-2">
+                    <div class="flex items-center gap-3.5 overflow-hidden">
+                        <div class="profile-avatar-frame shrink-0 shadow-md">
+                            <img id="display-avatar" src="" alt="الصورة الشخصية">
+                        </div>
+                        <div class="flex flex-col justify-center overflow-hidden">
+                            <h1 id="display-name" class="text-[17px] font-bold text-white leading-tight truncate">
+                                هشام علي<br>أحمد قيسي
+                            </h1>
+                            <p id="display-id-line" class="text-[13px] text-gray-300 font-medium mt-1 truncate">
+                                رقم هوية المقيم: 2502747328
+                            </p>
+                        </div>
+                    </div>
+                    <div class="text-gray-400 pl-1 shrink-0">
+                        <i data-lucide="chevron-left" class="w-5 h-5"></i>
+                    </div>
+                </div>
+
+                <div id="banners-container" class="space-y-3.5 px-0.5">
+                    <div id="banner-1-wrapper" class="banner-card-frame shadow-md border border-white/10 cursor-pointer"></div>
+                    <div id="banner-2-wrapper" class="banner-card-frame shadow-md border border-white/10 cursor-pointer"></div>
+                </div>
+            </div>
+        </div>
+
+        <section id="docs-section-wrapper" class="pt-2 pb-5">
+            <div class="flex items-center justify-between mb-2.5 px-4">
+                <h2 id="display-docs-title" class="text-[19px] font-extrabold text-white tracking-tight">وثائقي الرقمية</h2>
+                <span class="text-xs text-[#8ED1AF] cursor-pointer hover:underline" onclick="showToast('عرض كافة الوثائق')">عرض الكل</span>
+            </div>
+
+            <div class="pr-4 pl-[62px]">
+                <div class="grid grid-cols-2 gap-2.5">
+                    <div id="doc-square-1" class="digital-doc-card-mini" onclick="openCombinedIdModal()">
+                        <img id="doc-img-square-1" src="" alt="الوثيقة الأولى" class="w-full h-full object-fill">
+                    </div>
+                    <div id="doc-square-2" class="digital-doc-card-mini" onclick="showToast('جواز السفر / الوثيقة الإضافية')">
+                        <img id="doc-img-square-2" src="" alt="الوثيقة الثانية" class="w-full h-full object-fill">
+                    </div>
+                </div>
+                
+                <div class="flex items-start gap-1.5 text-gray-400 text-[10.5px] mt-2 leading-tight">
+                    <i data-lucide="info" class="w-3.5 h-3.5 shrink-0 text-[#8ED1AF] mt-0.5"></i>
+                    <span id="display-docs-info-text">اضغط على البطاقة لاستعراض الهوية واسحب من الأعلى للأسفل لعرض الباركود</span>
+                </div>
+            </div>
+        </section>
+
+        <section id="quick-access-wrapper" class="rounded-t-[26px] px-4 pt-6 pb-32 shadow-inner flex-1 border-t border-white/10">
+            <div id="quick-bg-overlay" class="section-overlay"></div>
+            
+            <div class="section-inner">
+                <h2 id="display-quick-title" class="text-[20px] font-extrabold text-white mb-4">الوصول السريع</h2>
+
+                <div id="service-card-0" class="mb-4"></div>
+
+                <div class="grid grid-cols-2 gap-4 mb-4">
+                    <div id="service-card-1"></div>
+                    <div id="service-card-2"></div>
+                    <div id="service-card-3"></div>
+                    <div id="service-card-4"></div>
+                </div>
+
+                <div id="service-card-5"></div>
+            </div>
+        </section>
+
+        <button id="floating-ai-btn" onclick="showToast('مرحباً بك! كيف يمكنني مساعدتك اليوم؟')" aria-label="المساعد الذكي" class="fixed bottom-[86px] left-4 sm:left-[calc(50%-198px)] z-30 w-12 h-12 rounded-full bg-[#2B2E2D] border border-white/15 text-[#8ED1AF] shadow-xl flex items-center justify-center transition active:scale-90">
+            <i data-lucide="message-square-plus" class="w-6 h-6 stroke-[2.2]"></i>
+        </button>
+
+        <nav id="bottom-nav-bar" class="fixed bottom-3.5 left-1/2 -translate-x-1/2 w-[93%] max-w-[400px] z-30 floating-nav rounded-full p-1.5 flex items-center justify-between">
+            <button onclick="switchTab(this, 0)" class="nav-tab active flex-1 py-1.5 px-1.5 rounded-full bg-black/35 text-white flex flex-col items-center justify-center gap-0.5 transition">
+                <i data-lucide="home" class="w-5 h-5 fill-current"></i>
+                <span class="text-[11px] font-bold truncate max-w-[64px]">الرئيسية</span>
+            </button>
+            <button onclick="switchTab(this, 1)" class="nav-tab flex-1 py-1.5 px-1 rounded-full text-gray-200/85 hover:text-white flex flex-col items-center justify-center gap-0.5 transition">
+                <i data-lucide="user" class="w-5 h-5"></i>
+                <span class="text-[11px] font-medium truncate max-w-[64px]">خدماتي</span>
+            </button>
+            <button onclick="switchTab(this, 2)" class="nav-tab flex-1 py-1.5 px-1 rounded-full text-gray-200/85 hover:text-white flex flex-col items-center justify-center gap-0.5 transition">
+                <i data-lucide="users" class="w-5 h-5"></i>
+                <span class="text-[11px] font-medium truncate max-w-[64px]">عائلتي</span>
+            </button>
+            <button onclick="switchTab(this, 3)" class="nav-tab flex-1 py-1.5 px-1 rounded-full text-gray-200/85 hover:text-white flex flex-col items-center justify-center gap-0.5 transition">
+                <i data-lucide="hard-hat" class="w-5 h-5"></i>
+                <span class="text-[11px] font-medium truncate max-w-[64px]">عمالتي</span>
+            </button>
+            <button onclick="switchTab(this, 4)" class="nav-tab flex-1 py-1.5 px-1 rounded-full text-gray-200/85 hover:text-white flex flex-col items-center justify-center gap-0.5 transition">
+                <i data-lucide="layout-grid" class="w-5 h-5"></i>
+                <span class="text-[11px] font-medium truncate max-w-[64px]">خدمات أخرى</span>
+            </button>
+        </nav>
+
+        <!-- نافذة المعاينة (الهوية أولاً في الأعلى، والباركود تحتها بحيث يظهر بالسحب من الأعلى للأسفل) -->
+        <div id="real-id-modal" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-md flex items-center justify-center p-4" onclick="closeRealIdModal()">
+            
+            <button onclick="closeRealIdModal()" class="absolute top-6 right-5 z-50 w-10 h-10 rounded-full bg-white/15 hover:bg-white/25 border border-white/20 text-white flex items-center justify-center shadow-lg">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+
+            <div id="real-id-stage" class="real-id-stage" onclick="event.stopPropagation()">
+                <div id="real-id-track" class="real-id-track">
+                    
+                    <!-- الشريحة الأولى: الهوية (تظهر أولاً فور النقر) -->
+                    <div class="real-id-slide">
+                        <img id="vertical-doc-img-1" src="" alt="الهوية الكاملة">
+                    </div>
+
+                    <!-- الشريحة الثانية: الباركود (يظهر بالسحب من الأعلى إلى الأسفل) -->
+                    <div class="real-id-slide relative">
+                        <img id="custom-barcode-display" src="" alt="الباركود الكامل">
+                        
+                        <div class="absolute top-4 left-4 z-20 bg-black/75 backdrop-blur-md border border-white/20 py-2.5 px-2.5 rounded-full flex items-center justify-center shadow-lg">
+                            <span id="qr-timer-number" class="text-[11px] font-bold text-white font-mono tracking-wider">00:30</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- لوحة الإعدادات الشاملة -->
+        <div id="settings-modal" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-sm flex items-end sm:items-center justify-center">
+            <div class="bg-[#1B1E1D] border border-white/15 w-full max-w-[430px] rounded-t-[26px] sm:rounded-[26px] flex flex-col max-h-[92vh] animate-slide-up shadow-2xl">
+                
+                <div class="flex items-center justify-between p-4 border-b border-white/10 shrink-0">
+                    <div class="flex items-center gap-2.5">
+                        <div class="w-9 h-9 rounded-full bg-[#0B6E3B] flex items-center justify-center text-[#8ED1AF]">
+                            <i data-lucide="sliders-horizontal" class="w-5 h-5"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-[16px] font-bold text-white">تخصيص الواجهة بالكامل</h3>
+                            <p class="text-[11px] text-gray-400">إدارة البطاقات، الباركود، الخلفيات والصور</p>
+                        </div>
+                    </div>
+                    <button onclick="closeSettingsModal()" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-gray-300">
+                        <i data-lucide="x" class="w-4 h-4"></i>
+                    </button>
+                </div>
+
+                <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar px-4 py-2.5 bg-[#141615] border-b border-white/10 shrink-0">
+                    <button onclick="switchSettingsTab('theme')" id="stab-theme" class="stab-btn px-3 py-1.5 rounded-full text-xs font-bold bg-[#0B6E3B] text-white whitespace-nowrap transition">🎨 الخلفيات</button>
+                    <button onclick="switchSettingsTab('profile')" id="stab-profile" class="stab-btn px-3 py-1.5 rounded-full text-xs font-bold bg-[#2B2E2D] text-gray-300 whitespace-nowrap transition">👤 الملف الشخصي</button>
+                    <button onclick="switchSettingsTab('banners')" id="stab-banners" class="stab-btn px-3 py-1.5 rounded-full text-xs font-bold bg-[#2B2E2D] text-gray-300 whitespace-nowrap transition">🖼️ بطاقات الإشعارات</button>
+                    <button onclick="switchSettingsTab('docs')" id="stab-docs" class="stab-btn px-3 py-1.5 rounded-full text-xs font-bold bg-[#2B2E2D] text-gray-300 whitespace-nowrap transition">🪪 وثائق الهوية</button>
+                    <button onclick="switchSettingsTab('services')" id="stab-services" class="stab-btn px-3 py-1.5 rounded-full text-xs font-bold bg-[#2B2E2D] text-gray-300 whitespace-nowrap transition">⊞ مربعات الخدمات</button>
+                    <button onclick="switchSettingsTab('appicon')" id="stab-appicon" class="stab-btn px-3 py-1.5 rounded-full text-xs font-bold bg-[#2B2E2D] text-gray-300 whitespace-nowrap transition">📱 شعار التطبيق</button>
+                </div>
+
+                <div class="p-4 overflow-y-auto space-y-4 flex-1 text-right">
+                    <div id="sec-theme" class="settings-section space-y-4">
+                        <div class="bg-[#252827] rounded-2xl p-3.5 border border-white/10 space-y-3">
+                            <h4 class="text-sm font-bold text-[#8ED1AF]">صورة الهيدر العلوي (فوق البطارية والكاميرا)</h4>
+                            <div class="flex items-center gap-2.5">
+                                <label class="cursor-pointer w-full h-9 bg-[#0B6E3B] text-white text-xs font-bold rounded-lg flex items-center justify-center gap-1.5">
+                                    <span>رفع صورة الهيدر العلوي</span>
+                                    <input type="file" accept="image/*" class="hidden" onchange="handleTopFixedHeaderUpload(event)">
+                                </label>
+                            </div>
+                            <button type="button" onclick="clearTopFixedHeaderImage()" class="text-[11px] text-red-400 hover:underline">إزالة صورة الهيدر العلوي</button>
+                        </div>
+
+                        <div class="bg-[#252827] rounded-2xl p-3.5 border border-white/10 space-y-3">
+                            <h4 class="text-sm font-bold text-[#8ED1AF]">خلفية القسم العلوي</h4>
+                            <div class="flex items-center gap-2.5">
+                                <div class="flex-1">
+                                    <label class="block text-[11px] text-gray-300 mb-1">اللون:</label>
+                                    <input type="color" id="top-bg-color" class="w-full h-9 rounded-lg cursor-pointer bg-transparent border border-white/10">
+                                </div>
+                                <div class="flex-1">
+                                    <label class="block text-[11px] text-gray-300 mb-1">صورة:</label>
+                                    <label class="cursor-pointer w-full h-9 bg-[#0B6E3B] text-white text-xs font-bold rounded-lg flex items-center justify-center gap-1.5">
+                                        <span>رفع صورة</span>
+                                        <input type="file" accept="image/*" class="hidden" onchange="handleTopBgUpload(event)">
+                                    </label>
+                                </div>
+                            </div>
+                            <button type="button" onclick="clearTopBgImage()" class="text-[11px] text-red-400 hover:underline">إزالة الصورة العلوية</button>
+                        </div>
+
+                        <div class="bg-[#252827] rounded-2xl p-3.5 border border-white/10 space-y-3">
+                            <h4 class="text-sm font-bold text-[#8ED1AF]">خلفية الوصول السريع</h4>
+                            <div class="flex items-center gap-2.5">
+                                <div class="flex-1">
+                                    <label class="block text-[11px] text-gray-300 mb-1">اللون:</label>
+                                    <input type="color" id="quick-bg-color" class="w-full h-9 rounded-lg cursor-pointer bg-transparent border border-white/10">
+                                </div>
+                                <div class="flex-1">
+                                    <label class="block text-[11px] text-gray-300 mb-1">صورة:</label>
+                                    <label class="cursor-pointer w-full h-9 bg-[#0B6E3B] text-white text-xs font-bold rounded-lg flex items-center justify-center gap-1.5">
+                                        <span>رفع صورة</span>
+                                        <input type="file" accept="image/*" class="hidden" onchange="handleQuickBgUpload(event)">
+                                    </label>
+                                </div>
+                            </div>
+                            <button type="button" onclick="clearQuickBgImage()" class="text-[11px] text-red-400 hover:underline">إزالة صورة الوصول السريع</button>
+                        </div>
+
+                        <div class="bg-[#252827] rounded-2xl p-3.5 border border-white/10 space-y-2">
+                            <label class="block text-xs font-bold text-[#8ED1AF]">لون خلفية الوسط:</label>
+                            <input type="color" id="main-bg-color" class="w-full h-9 rounded-lg cursor-pointer bg-transparent border border-white/10">
+                        </div>
+                    </div>
+
+                    <div id="sec-profile" class="settings-section hidden space-y-4">
+                        <div>
+                            <label class="block text-xs font-bold text-gray-300 mb-1.5">الاسم (السطر الأول والثاني)</label>
+                            <input id="input-name" type="text" class="w-full bg-[#2B2E2D] border border-white/10 rounded-xl px-3.5 py-2.5 text-sm text-white outline-none">
+                        </div>
+
+                        <div class="grid grid-cols-5 gap-2.5">
+                            <div class="col-span-2">
+                                <label class="block text-xs font-bold text-gray-300 mb-1.5">وصف الرقم</label>
+                                <input id="input-id-label" type="text" class="w-full bg-[#2B2E2D] border border-white/10 rounded-xl px-3 py-2.5 text-xs text-white outline-none">
+                            </div>
+                            <div class="col-span-3">
+                                <label class="block text-xs font-bold text-gray-300 mb-1.5">رقم الهوية / المقيم</label>
+                                <input id="input-id-number" type="text" dir="ltr" class="w-full bg-[#2B2E2D] border border-white/10 rounded-xl px-3.5 py-2.5 text-sm text-right text-white outline-none">
+                            </div>
+                        </div>
+
+                        <div class="bg-[#252827] rounded-2xl p-3.5 border border-white/5 flex items-center justify-between gap-3">
+                            <div class="flex items-center gap-3">
+                                <div class="profile-avatar-frame shrink-0">
+                                    <img id="preview-avatar-setting" src="" alt="معاينة">
+                                </div>
+                                <div>
+                                    <h4 class="text-sm font-bold text-white">الصورة الشخصية</h4>
+                                </div>
+                            </div>
+                            <label class="cursor-pointer bg-[#0B6E3B] text-white text-xs font-bold px-3.5 py-2 rounded-xl flex items-center gap-1.5">
+                                <span>تغيير</span>
+                                <input type="file" accept="image/*" class="hidden" onchange="handleAvatarUpload(event)">
+                            </label>
+                        </div>
+                    </div>
+
+                    <div id="sec-banners" class="settings-section hidden space-y-4">
+                        <div class="bg-[#252827] rounded-2xl p-3.5 border border-white/10 space-y-3">
+                            <div class="flex items-center justify-between">
+                                <h4 class="text-sm font-bold text-[#8ED1AF]">البطاقة الأولى</h4>
+                                <label class="inline-flex items-center gap-1.5 text-xs cursor-pointer">
+                                    <input type="checkbox" id="b1-visible" class="accent-[#8ED1AF] w-4 h-4"> <span>إظهار</span>
+                                </label>
+                            </div>
+                            <div class="flex items-center gap-2.5">
+                                <input type="color" id="b1-color" class="w-12 h-9 rounded-lg cursor-pointer bg-transparent border border-white/10">
+                                <label class="cursor-pointer flex-1 h-9 bg-[#0B6E3B] text-white text-xs font-bold rounded-lg flex items-center justify-center gap-1.5">
+                                    <span>رفع صورة</span>
+                                    <input type="file" accept="image/*" class="hidden" onchange="handleBannerImageUpload(event, 0)">
+                                </label>
+                            </div>
+                            <button type="button" onclick="clearBannerImage(0)" class="text-[11px] text-red-400 hover:underline">حذف الصورة</button>
+                        </div>
+
+                        <div class="bg-[#252827] rounded-2xl p-3.5 border border-white/10 space-y-3">
+                            <div class="flex items-center justify-between">
+                                <h4 class="text-sm font-bold text-[#8ED1AF]">البطاقة الثانية</h4>
+                                <label class="inline-flex items-center gap-1.5 text-xs cursor-pointer">
+                                    <input type="checkbox" id="b2-visible" class="accent-[#8ED1AF] w-4 h-4"> <span>إظهار</span>
+                                </label>
+                            </div>
+                            <div class="flex items-center gap-2.5">
+                                <input type="color" id="b2-color" class="w-12 h-9 rounded-lg cursor-pointer bg-transparent border border-white/10">
+                                <label class="cursor-pointer flex-1 h-9 bg-[#0B6E3B] text-white text-xs font-bold rounded-lg flex items-center justify-center gap-1.5">
+                                    <span>رفع صورة</span>
+                                    <input type="file" accept="image/*" class="hidden" onchange="handleBannerImageUpload(event, 1)">
+                                </label>
+                            </div>
+                            <button type="button" onclick="clearBannerImage(1)" class="text-[11px] text-red-400 hover:underline">حذف الصورة</button>
+                        </div>
+                    </div>
+
+                    <div id="sec-docs" class="settings-section hidden space-y-4">
+                        <div class="bg-[#252827] rounded-2xl p-3.5 border border-white/10 space-y-2">
+                            <label class="block text-xs font-bold text-[#8ED1AF]">النص الإرشادي تحت الوثائق:</label>
+                            <input id="input-docs-info" type="text" class="w-full bg-[#1B1E1D] text-white text-xs rounded-xl px-3 py-2.5 border border-white/10 outline-none">
+                        </div>
+
+                        <div class="bg-[#252827] rounded-2xl p-3.5 border border-white/10 space-y-3">
+                            <h4 class="text-sm font-bold text-[#8ED1AF]">1. صورة المربع الأول (في الواجهة الرئيسية)</h4>
+                            <label class="cursor-pointer w-full bg-[#0B6E3B] text-white text-xs font-bold py-2.5 px-3 rounded-xl flex items-center justify-center gap-1.5">
+                                <span>تغيير صورة المربع الأول</span>
+                                <input type="file" accept="image/*" class="hidden" onchange="handleDocSquare1Upload(event)">
+                            </label>
+                        </div>
+
+                        <div class="bg-[#252827] rounded-2xl p-3.5 border border-white/10 space-y-3">
+                            <h4 class="text-sm font-bold text-[#8ED1AF]">2. صورة المربع الثاني (في الواجهة الرئيسية)</h4>
+                            <label class="cursor-pointer w-full bg-[#0B6E3B] text-white text-xs font-bold py-2.5 px-3 rounded-xl flex items-center justify-center gap-1.5">
+                                <span>تغيير صورة المربع الثاني</span>
+                                <input type="file" accept="image/*" class="hidden" onchange="handleDocSquare2Upload(event)">
+                            </label>
+                        </div>
+
+                        <div class="bg-[#252827] rounded-2xl p-3.5 border border-white/10 space-y-3">
+                            <h4 class="text-sm font-bold text-[#8ED1AF]">3. صورة الهوية (داخل نافذة المعاينة)</h4>
+                            <label class="cursor-pointer w-full bg-[#0B6E3B] text-white text-xs font-bold py-2.5 px-3 rounded-xl flex items-center justify-center gap-1.5">
+                                <span>تغيير صورة الهوية</span>
+                                <input type="file" accept="image/*" class="hidden" onchange="handleVerticalDocUpload(event)">
+                            </label>
+                        </div>
+
+                        <div class="bg-[#252827] rounded-2xl p-3.5 border border-white/10 space-y-3">
+                            <h4 class="text-sm font-bold text-[#8ED1AF]">4. صورة الباركود (داخل نافذة المعاينة)</h4>
+                            <label class="cursor-pointer w-full bg-[#0B6E3B] text-white text-xs font-bold py-2.5 px-3 rounded-xl flex items-center justify-center gap-1.5">
+                                <span>تغيير صورة الباركود</span>
+                                <input type="file" accept="image/*" class="hidden" onchange="handleCustomBarcodeUpload(event)">
+                            </label>
+                        </div>
+                    </div>
+
+                    <div id="sec-services" class="settings-section hidden space-y-3">
+                        <div id="service-upload-controls" class="space-y-2.5"></div>
+                    </div>
+
+                    <div id="sec-appicon" class="settings-section hidden space-y-4">
+                        <div class="bg-[#252827] rounded-2xl p-4 border border-white/5 space-y-3">
+                            <h4 class="text-sm font-bold text-[#8ED1AF]">تغيير شعار وأيقونة التطبيق</h4>
+                            <div class="flex items-center gap-3 pt-2">
+                                <div class="w-16 h-16 rounded-2xl overflow-hidden bg-black/40 border border-white/15 shrink-0 flex items-center justify-center">
+                                    <img id="current-app-icon-preview" src="" class="w-full h-full object-cover">
+                                </div>
+                                <label class="cursor-pointer flex-1 bg-[#0B6E3B] text-white text-xs font-bold py-3 px-4 rounded-xl flex items-center justify-center gap-2 shadow-md">
+                                    <span>رفع شعار جديد</span>
+                                    <input type="file" accept="image/*" class="hidden" onchange="handleAppIconUpload(event)">
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="p-4 border-t border-white/10 bg-[#141615] shrink-0">
+                    <button onclick="saveAllSettings()" class="w-full bg-[#0B6E3B] hover:bg-[#0f8247] text-white font-bold py-3 rounded-xl text-sm transition active:scale-[0.98] shadow-lg">
+                        حفظ التغييرات وتحديث التطبيق فوراً
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- نافذة المعاينة -->
+    <div id="preview-modal" class="fixed inset-0 z-50 hidden bg-black/90 backdrop-blur-md flex items-center justify-center p-4" onclick="closePreviewModal()">
+        <div class="relative max-w-full max-h-[90vh] overflow-hidden rounded-2xl bg-black border border-white/20 shadow-2xl" onclick="event.stopPropagation()">
+            <button onclick="closePreviewModal()" class="absolute top-3 left-3 z-10 w-9 h-9 rounded-full bg-black/60 hover:bg-black text-white flex items-center justify-center">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+            <img id="preview-modal-img" src="" alt="معاينة" class="max-w-[90vw] max-h-[85vh] object-contain">
+        </div>
+    </div>
+
+    <!-- نافذة البحث -->
+    <div id="search-modal" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-sm flex items-start justify-center pt-20 px-4">
+        <div class="bg-[#1B1E1D] border border-white/15 w-full max-w-[420px] rounded-2xl p-4 shadow-2xl space-y-3 animate-slide-up">
+            <div class="flex items-center justify-between">
+                <h3 class="text-sm font-bold text-white">بحث في الخدمات الرقمية</h3>
+                <button onclick="closeSearchModal()" class="text-gray-400 hover:text-white"><i data-lucide="x" class="w-4 h-4"></i></button>
+            </div>
+            <input type="text" placeholder="اكتب اسم الخدمة..." class="w-full bg-[#2B2E2D] border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white outline-none focus:border-[#8ED1AF]">
+        </div>
+    </div>
+
+    <!-- إشعار مؤقت -->
+    <div id="toast" class="fixed bottom-24 left-1/2 -translate-x-1/2 z-50 hidden bg-[#1B1E1D] text-white border border-white/20 px-4 py-2.5 rounded-full shadow-2xl text-xs font-bold tracking-wide flex items-center gap-2">
+        <i data-lucide="check-circle-2" class="w-4 h-4 text-[#8ED1AF]"></i>
+        <span id="toast-msg">تم التحديث بنجاح</span>
+    </div>
+
+    <script>
+        let appData = {
+            theme: {
+                mainBgColor: '#161817',
+                topBgColor: '#161817',
+                topBgImage: '',
+                quickBgColor: '#1c201e',
+                quickBgImage: ''
+            },
+            profile: {
+                name: "هشام علي<br>أحمد قيسي",
+                idLabel: "رقم هوية المقيم",
+                idNumber: "1105194193",
+                avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=200&q=80",
+                appIcon: "https://placehold.co/192x192/0B6E3B/ffffff?text=APP"
+            },
+            banners: [
+                { visible: true, bg: "#2B2E2D", image: "" },
+                { visible: true, bg: "#0B6E3B", image: "" }
+            ],
+            docSquare1: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80",
+            docSquare2: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=600&q=80",
+            verticalDocImage: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80",
+            customBarcodeImage: "https://placehold.co/400x600/252827/ffffff?text=BARCODE+CARD",
+            services: [
+                { image: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=600&q=80", wide: true },
+                { image: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=400&q=80", wide: false },
+                { image: "https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=400&q=80", wide: false },
+                { image: "https://images.unsplash.com/photo-1541899481282-d53bffe3c353?auto=format&fit=crop&w=400&q=80", wide: false },
+                { image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80", wide: false },
+                { image: "https://images.unsplash.com/photo-1595590424283-b8f17842773f?auto=format&fit=crop&w=600&q=80", wide: true }
+            ]
+        };
+
+        let qrTimerInterval = null;
+        let qrSecondsLeft = 30;
+        let touchStartY = 0;
+        let currentSlide = 1;
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const saved = localStorage.getItem('hisham_app_data_v60');
+            if (saved) {
+                try { appData = JSON.parse(saved); } catch(e){}
+            }
+            renderApp();
+            initTopToBottomSwipeListeners();
+            lucide.createIcons();
+        });
+
+        function renderApp() {
+            const shell = document.getElementById('app-shell');
+            const topWrap = document.getElementById('top-section-wrapper');
+            const topOverlay = document.getElementById('top-bg-overlay');
+            const quickWrap = document.getElementById('quick-access-wrapper');
+            const quickOverlay = document.getElementById('quick-bg-overlay');
+
+            shell.style.backgroundColor = appData.theme.mainBgColor || '#161817';
+            document.getElementById('main-bg-color').value = appData.theme.mainBgColor || '#161817';
+
+            if (appData.theme.topBgImage) {
+                topWrap.style.backgroundImage = `url('${appData.theme.topBgImage}')`;
+                topWrap.style.backgroundColor = 'transparent';
+                topOverlay.style.backgroundColor = 'rgba(0, 0, 0, 0.25)';
+            } else {
+                topWrap.style.backgroundImage = 'none';
+                topWrap.style.backgroundColor = appData.theme.topBgColor || '#161817';
+                topOverlay.style.backgroundColor = 'transparent';
+            }
+            document.getElementById('top-bg-color').value = appData.theme.topBgColor || '#161817';
+
+            if (appData.theme.quickBgImage) {
+                quickWrap.style.backgroundImage = `url('${appData.theme.quickBgImage}')`;
+                quickWrap.style.backgroundColor = 'transparent';
+                quickOverlay.style.backgroundColor = 'rgba(0, 0, 0, 0.25)';
+            } else {
+                quickWrap.style.backgroundImage = 'none';
+                quickWrap.style.backgroundColor = appData.theme.quickBgColor || '#1c201e';
+                quickOverlay.style.backgroundColor = 'transparent';
+            }
+            document.getElementById('quick-bg-color').value = appData.theme.quickBgColor || '#1c201e';
+
+            if (appData.profile.appIcon) {
+                document.getElementById('dynamic-apple-icon').href = appData.profile.appIcon;
+                document.getElementById('dynamic-favicon').href = appData.profile.appIcon;
+                document.getElementById('current-app-icon-preview').src = appData.profile.appIcon;
+            }
+
+            document.getElementById('display-name').innerHTML = appData.profile.name;
+            document.getElementById('display-id-line').textContent = `${appData.profile.idLabel}: ${appData.profile.idNumber}`;
+            document.getElementById('display-avatar').src = appData.profile.avatar;
+            document.getElementById('preview-avatar-setting').src = appData.profile.avatar;
+
+            document.getElementById('input-name').value = appData.profile.name.replace(/<br>/g, ' ');
+            document.getElementById('input-id-label').value = appData.profile.idLabel;
+            document.getElementById('input-id-number').value = appData.profile.idNumber;
+
+            document.getElementById('doc-img-square-1').src = appData.docSquare1;
+            document.getElementById('doc-img-square-2').src = appData.docSquare2;
+            document.getElementById('custom-barcode-display').src = appData.customBarcodeImage;
+            document.getElementById('vertical-doc-img-1').src = appData.verticalDocImage;
+
+            appData.banners.forEach((b, idx) => {
+                const wrap = document.getElementById(`banner-${idx+1}-wrapper`);
+                wrap.style.display = b.visible ? 'block' : 'none';
+                wrap.innerHTML = '';
+                if (b.image) {
+                    wrap.style.backgroundImage = `url('${b.image}')`;
+                    wrap.style.backgroundColor = 'transparent';
+                    wrap.onclick = () => openPreviewModal(b.image);
+                } else {
+                    wrap.style.backgroundImage = 'none';
+                    wrap.style.backgroundColor = b.bg;
+                    wrap.onclick = null;
+                }
+                document.getElementById(`b${idx+1}-visible`).checked = b.visible;
+                document.getElementById(`b${idx+1}-color`).value = b.bg;
+            });
+
+            appData.services.forEach((srv, idx) => {
+                const box = document.getElementById(`service-card-${idx}`);
+                box.className = srv.wide
+                    ? (idx === 0 ? "service-wide-card shadow cursor-pointer border border-white/10 mb-4" : "service-wide-card shadow cursor-pointer border border-white/10")
+                    : "service-grid-card shadow cursor-pointer border border-white/10";
+                box.onclick = () => openPreviewModal(srv.image);
+                box.innerHTML = `<img src="${srv.image}" alt="خدمة" class="w-full h-full object-cover">`;
+            });
+            renderServicesSettings();
+            lucide.createIcons();
+        }
+
+        function renderServicesSettings() {
+            const container = document.getElementById('service-upload-controls');
+            container.innerHTML = '';
+            appData.services.forEach((srv, idx) => {
+                const item = document.createElement('div');
+                item.className = "bg-[#252827] p-3 rounded-xl border border-white/5 flex items-center justify-between gap-3";
+                item.innerHTML = `
+                    <span class="text-xs font-bold text-white">مربع رقم ${idx+1}</span>
+                    <label class="cursor-pointer bg-[#0B6E3B] text-white text-[11px] font-bold px-3 py-1.5 rounded-lg flex items-center gap-1">
+                        <span>رفع صورة</span>
+                        <input type="file" accept="image/*" class="hidden" onchange="handleServiceImageUpload(event, ${idx})">
+                    </label>
+                `;
+                container.appendChild(item);
+            });
+        }
+
+        function openCombinedIdModal() {
+            currentSlide = 1;
+            updateVerticalTrack();
+            document.getElementById('vertical-id-modal').classList.remove('hidden');
+            startQrCountdown();
+        }
+
+        function closeVerticalIdModal() {
+            document.getElementById('vertical-id-modal').classList.add('hidden');
+            stopQrCountdown();
+        }
+
+        function updateVerticalTrack() {
+            const track = document.getElementById('vertical-track');
+            if (currentSlide === 0) {
+                track.style.transform = 'translateY(0%)';
+            } else {
+                track.style.transform = 'translateY(-50%)';
+            }
+        }
+
+        function initTopToBottomSwipeListeners() {
+            const stage = document.getElementById('vertical-stage');
+            if(!stage) return;
+            stage.addEventListener('touchstart', e => { touchStartY = e.touches[0].clientY; }, {passive: true});
+            stage.addEventListener('touchend', e => {
+                let touchEndY = e.changedTouches[0].clientY;
+                let diff = touchStartY - touchEndY;
+                if (Math.abs(diff) > 40) {
+                    currentSlide = (diff < 0) ? 0 : 1;
+                    updateVerticalTrack();
+                }
+            }, {passive: true});
+        }
+
+        function startQrCountdown() {
+            stopQrCountdown();
+            qrSecondsLeft = 30;
+            updateTimerDisplay();
+            qrTimerInterval = setInterval(() => {
+                qrSecondsLeft--;
+                if (qrSecondsLeft < 0) qrSecondsLeft = 30;
+                updateTimerDisplay();
+            }, 1000);
+        }
+
+        function stopQrCountdown() {
+            if (qrTimerInterval) { clearInterval(qrTimerInterval); qrTimerInterval = null; }
+        }
+
+        function updateTimerDisplay() {
+            const el = document.getElementById('qr-timer-number');
+            if(el) {
+                let secStr = qrSecondsLeft < 10 ? '0' + qrSecondsLeft : qrSecondsLeft;
+                el.textContent = `00:${secStr}`;
+            }
+        }
+
+        function handleDocSquare1Upload(e) {
+            const file = e.target.files[0];
+            if(file) {
+                const reader = new FileReader();
+                reader.onload = evt => { appData.docSquare1 = evt.target.result; renderApp(); showToast('تم تحديث المربع الأول'); };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function handleDocSquare2Upload(e) {
+            const file = e.target.files[0];
+            if(file) {
+                const reader = new FileReader();
+                reader.onload = evt => { appData.docSquare2 = evt.target.result; renderApp(); showToast('تم تحديث المربع الثاني'); };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function handleVerticalDocUpload(e) {
+            const file = e.target.files[0];
+            if(file) {
+                const reader = new FileReader();
+                reader.onload = evt => { appData.verticalDocImage = evt.target.result; renderApp(); showToast('تم تحديث صورة الهوية'); };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function handleCustomBarcodeUpload(e) {
+            const file = e.target.files[0];
+            if(file) {
+                const reader = new FileReader();
+                reader.onload = evt => { appData.customBarcodeImage = evt.target.result; renderApp(); showToast('تم تحديث صورة الباركود'); };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function handleTopBgUpload(e) {
+            const file = e.target.files[0];
+            if(file) {
+                const reader = new FileReader();
+                reader.onload = evt => { appData.theme.topBgImage = evt.target.result; renderApp(); showToast('تم تحديث خلفية القسم العلوي'); };
+                reader.readAsDataURL(file);
+            }
+        }
+        function clearTopBgImage() { appData.theme.topBgImage = ''; renderApp(); showToast('تمت إزالة خلفية القسم العلوي'); }
+
+        function handleQuickBgUpload(e) {
+            const file = e.target.files[0];
+            if(file) {
+                const reader = new FileReader();
+                reader.onload = evt => { appData.theme.quickBgImage = evt.target.result; renderApp(); showToast('تم تحديث خلفية الوصول السريع'); };
+                reader.readAsDataURL(file);
+            }
+        }
+        function clearQuickBgImage() { appData.theme.quickBgImage = ''; renderApp(); showToast('تمت إزالة صورة الوصول السريع'); }
+
+        function handleBannerImageUpload(e, idx) {
+            const file = e.target.files[0];
+            if(file) {
+                const reader = new FileReader();
+                reader.onload = evt => { appData.banners[idx].image = evt.target.result; renderApp(); showToast(`تم تحديث البطاقة ${idx+1}`); };
+                reader.readAsDataURL(file);
+            }
+        }
+        function clearBannerImage(idx) { appData.banners[idx].image = ''; renderApp(); showToast(`تمت إزالة صورة البطاقة ${idx+1}`); }
+
+        function handleAvatarUpload(e) {
+            const file = e.target.files[0];
+            if(file) {
+                const reader = new FileReader();
+                reader.onload = evt => { appData.profile.avatar = evt.target.result; renderApp(); showToast('تم تحديث الصورة الشخصية'); };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function handleAppIconUpload(e) {
+            const file = e.target.files[0];
+            if(file) {
+                const reader = new FileReader();
+                reader.onload = evt => { appData.profile.appIcon = evt.target.result; renderApp(); showToast('تم تحديث شعار التطبيق'); };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function handleServiceImageUpload(e, idx) {
+            const file = e.target.files[0];
+            if(file) {
+                const reader = new FileReader();
+                reader.onload = evt => { appData.services[idx].image = evt.target.result; renderApp(); showToast(`تم تحديث المربع ${idx+1}`); };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function saveAllSettings() {
+            appData.theme.mainBgColor = document.getElementById('main-bg-color').value;
+            appData.theme.topBgColor = document.getElementById('top-bg-color').value;
+            appData.theme.quickBgColor = document.getElementById('quick-bg-color').value;
+
+            let rawName = document.getElementById('input-name').value;
+            let parts = rawName.trim().split(' ');
+            if (parts.length >= 2) {
+                let firstPart = parts.slice(0, 2).join(' ');
+                let secondPart = parts.slice(2).join(' ');
+                appData.profile.name = secondPart ? `${firstPart}<br>${secondPart}` : firstPart;
+            } else {
+                appData.profile.name = rawName;
+            }
+
+            appData.profile.idLabel = document.getElementById('input-id-label').value;
+            appData.profile.idNumber = document.getElementById('input-id-number').value;
+
+            appData.banners.forEach((b, idx) => {
+                b.visible = document.getElementById(`b${idx+1}-visible`).checked;
+                b.bg = document.getElementById(`b${idx+1}-color`).value;
+            });
+
+            localStorage.setItem('hisham_app_data_v60', JSON.stringify(appData));
+            renderApp();
+            closeSettingsModal();
+            showToast('تم حفظ جميع التعديلات بنجاح');
+        }
+
+        function openSettingsModal() { document.getElementById('settings-modal').classList.remove('hidden'); }
+        function closeSettingsModal() { document.getElementById('settings-modal').classList.add('hidden'); }
+        function openSearchModal() { document.getElementById('search-modal').classList.remove('hidden'); }
+        function closeSearchModal() { document.getElementById('search-modal').classList.add('hidden'); }
+
+        function openPreviewModal(imgSrc) {
+            if(!imgSrc) return;
+            document.getElementById('preview-modal-img').src = imgSrc;
+            document.getElementById('preview-modal').classList.remove('hidden');
+        }
+        function closePreviewModal() { document.getElementById('preview-modal').classList.add('hidden'); }
+        function openProfileDetails() { showToast('عرض تفاصيل ملف المستخدم'); }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-msg').textContent = msg;
+            toast.classList.remove('hidden');
+            setTimeout(() => toast.classList.add('hidden'), 2500);
+        }
+
+        function switchSettingsTab(tabName) {
+            ['theme', 'profile', 'banners', 'docs', 'services', 'appicon'].forEach(t => {
+                const sec = document.getElementById(`sec-${t}`);
+                const stab = document.getElementById(`stab-${t}`);
+                if(sec) sec.classList.add('hidden');
+                if(stab) stab.className = "stab-btn px-3 py-1.5 rounded-full text-xs font-bold bg-[#2B2E2D] text-gray-300 whitespace-nowrap transition";
+            });
+            const targetSec = document.getElementById(`sec-${tabName}`);
+            const targetStab = document.getElementById(`stab-${tabName}`);
+            if(targetSec) targetSec.classList.remove('hidden');
+            if(targetStab) targetStab.className = "stab-btn px-3 py-1.5 rounded-full text-xs font-bold bg-[#0B6E3B] text-white whitespace-nowrap transition";
+        }
+
+        function switchTab(btn, idx) {
+            document.querySelectorAll('.nav-tab').forEach(t => {
+                t.className = "nav-tab flex-1 py-1.5 px-1 rounded-full text-gray-200/85 hover:text-white flex flex-col items-center justify-center gap-0.5 transition";
+            });
+            btn.className = "nav-tab active flex-1 py-1.5 px-1.5 rounded-full bg-black/35 text-white flex flex-col items-center justify-center gap-0.5 transition";
+        }
+    </script>
+</body>
+</html>
